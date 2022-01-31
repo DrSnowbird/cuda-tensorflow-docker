@@ -1,0 +1,7 @@
+**SAVE/
+*.tmp
+
+app/lib/
+app/samples_demo/
+**workspace/*
+**data/*

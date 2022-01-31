@@ -78,6 +78,7 @@ build-rm:
 build:
 	docker build \
 	-t $(DOCKER_IMAGE):$(VERSION) .
+	docker images | grep $(DOCKER_IMAGE) 
 
 push:
 	docker commit -m "$comment" ${containerID} ${imageTag}:$(VERSION)

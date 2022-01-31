@@ -1,9 +1,8 @@
 # Tensorflow v2 + Nvidia CUDA (latest) Docker + GPU-Auto-Enables (if available) + Non-Root User + App Pattern environments
 
 ```
-If [ you need a Tensorflow v2 + CUDA for your ML/DL Container ] \
-   or \
-   [ you just want to run your ML/DL code (not time in platforms) ]:
+If [ you need 'Tensorflow v2 + Nvidia CUDA/cuDNN' ML environments immediately ] \
+   and you have no time in creating (setup / installing) a ML platforms) ]:
    Then [ this one may be for you ]
 ```
 

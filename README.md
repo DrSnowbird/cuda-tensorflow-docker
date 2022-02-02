@@ -20,7 +20,12 @@ If [ you need 'Tensorflow v2 + Nvidia CUDA/cuDNN' ML environments immediately ] 
 # Build (`Do this first!`)
 Due to Docker Hub not allowing free host of pre-built images, you have to make local build to use!
 ```
-./build.sh
+(barebone: only CUDA and cuDNN and tensorflow are installed)
+make build
+
+Or, you can use the large collection of ML modules pre-installed into the build:
+make build-large
+
 ```
 
 # Run (demo)

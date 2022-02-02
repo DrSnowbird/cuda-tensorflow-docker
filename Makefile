@@ -4,7 +4,7 @@
 # or
 # b.) sudo docker login -p FpXM6Qy9vVL5kPeoefzxwA-oaYb-Wpej2iXTwV7UHYs -e unused -u unused docker-registry-default.openkbs.org
 # e.g. (using Openshift)
-#    oc process -f ./files/deployments/template.yml -v API_NAME=$(REGISTRY_IMAGE) > template.active
+#	oc process -f ./files/deployments/template.yml -v API_NAME=$(REGISTRY_IMAGE) > template.active
 #
 # to run:
 # make <verb> [ APP_VERSION=<...> DOCKER_NAME=<...> REGISTRY_HOST=<...> ]
@@ -55,6 +55,8 @@ RESTART_OPTION := always
 
 SHA := $(shell git describe --match=NeVeRmAtCh --always --abbrev=40 --dirty=*)
 
+TIME_START := $(shell date +%s)
+
 .PHONY: clean rmi build push pull up down run stop exec
 
 clean:
@@ -75,11 +77,23 @@ build-rm:
 	docker build --force-rm --no-cache \
 	-t $(DOCKER_IMAGE):$(VERSION) .
 
-build:
-	docker build \
-	-t $(DOCKER_IMAGE):$(VERSION) .
-	docker images | grep $(DOCKER_IMAGE) 
+build-large:
+	cp app/requirements-large-example.txt app/requirements.txt
+	docker build -t $(DOCKER_IMAGE):$(VERSION) .
+	docker images | grep $(DOCKER_IMAGE)
+	@echo ">>> Total Dockder images Build-large using time in seconds: $$(($$(date +%s)-$(TIME_START))) seconds"
 
+build-barebone:
+	cp app/requirements-barebone.txt app/requirements.txt
+	docker build -t $(DOCKER_IMAGE):$(VERSION) .
+	docker images | grep $(DOCKER_IMAGE)
+	@echo ">>> Total Dockder images Build-barebone using time in seconds: $$(($$(date +%s)-$(TIME_START))) seconds"
+
+build:
+	docker build -t $(DOCKER_IMAGE):$(VERSION) .
+	docker images | grep $(DOCKER_IMAGE)
+	@echo ">>> Total Dockder images Build (as-is app/requirements.txt) using time in seconds: $$(($$(date +%s)-$(TIME_START))) seconds"
+	
 push:
 	docker commit -m "$comment" ${containerID} ${imageTag}:$(VERSION)
 	docker push $(DOCKER_IMAGE):$(VERSION)

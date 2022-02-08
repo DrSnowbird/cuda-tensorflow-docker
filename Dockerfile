@@ -64,8 +64,8 @@ RUN $HOME/bin/pre-load-virtualenv.sh && \
 ##### ---- Setup: Entry Files  ---- #####
 #########################################
 COPY --chown=${USER}:${USER} docker-entrypoint.sh /
-COPY --chown=${USER}:${USER} ${APP_MAIN} ${APP_HOME}/setup.sh
-RUN sudo chmod +x /docker-entrypoint.sh ${APP_HOME}/setup.sh && \
+COPY --chown=${USER}:${USER} ${APP_MAIN} ${HOME}/setup.sh
+RUN sudo chmod +x /docker-entrypoint.sh ${HOME}/setup.sh && \
     sudo chown -R $USER:$USER $HOME/app
 
 #########################################
@@ -93,5 +93,5 @@ USER ${USER}
 ######################
 #### (RUN setup) #####
 ######################
-CMD ["setup.sh"]
+CMD ["${HOME}/setup.sh"]
 

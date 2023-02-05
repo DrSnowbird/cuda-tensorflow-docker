@@ -6,3 +6,6 @@ app/samples_demo/
 **workspace/*
 **data/*
 **app-customized*
+
+**/.env
+**/docker-compose.yml

@@ -1,4 +1,4 @@
-ARG IMAGE_TAG=22.03
+ARG IMAGE_TAG=23.01
 ARG BASE=${BASE:-nvcr.io/nvidia/tensorflow:${IMAGE_TAG}-tf2-py3}
 #ARG BASE=${BASE:-openkbs/cuda-tensorflow-docker}
 FROM ${BASE}
@@ -53,17 +53,22 @@ RUN python3 -u -m pip install --upgrade pip
 #### ---- App Setup:  ---- ####
 ###############################
 COPY --chown=$USER:$USER ./app $HOME/app
-COPY --chown=$USER:$USER ./bin $HOME/bin
+COPY --chown=$USER:$USER requirements.txt $HOME/requirements.txt
+COPY --chown=$USER:$USER ./bin $HOME/bi
 #RUN $HOME/bin/pre-load-virtualenv.sh && \
 
-RUN if [ -s $HOME/app/requirements.txt ]; then \
-        pip install --no-cache-dir --user -r requirements.txt ; \
+RUN if [ -s ${APP_HOME}/requirements.txt ]; then \
+        pip install --no-cache-dir --user -r ${APP_HOME}/requirements.txt ; \
+    elif [ -s ${HOME}/requirements.txt ]; then \
+        pip install --no-cache-dir --user -r ${HOME}/requirements.txt ; \ 
     fi; 
     
 #########################################
 ##### ---- Setup: Entry Files  ---- #####
 #########################################
-COPY --chown=${USER}:${USER} docker-entrypoint.sh /
+COPY --chown=${USER}:${USER} ./scripts $HOME/scripts
+COPY --chown=${USER}:${USER} docker-entrypoint.sh /docker-entrypoint.sh
+COPY --chown=${USER}:${USER} ./scripts/run-jupyter.sh /run-jupyter.sh
 COPY --chown=${USER}:${USER} ${APP_MAIN} ${HOME}/setup.sh
 RUN sudo chmod +x /docker-entrypoint.sh ${HOME}/setup.sh && \
     sudo chown -R $USER:$USER $HOME/app
@@ -93,5 +98,6 @@ USER ${USER}
 ######################
 #### (RUN setup) #####
 ######################
-CMD ["${HOME}/setup.sh"]
+#CMD ["${HOME}/setup.sh"]
+CMD ["/run-jupyter.sh", "--allow-root"]
 

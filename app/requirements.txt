@@ -23,7 +23,7 @@ reportlab
 sentence-transformers
 simple-file-checksum
 tensorflow
-tensorflow-gpu
+#tensorflow-gpu
 tensorflow-hub
 torch
 tqdm
@@ -32,3 +32,8 @@ transformers[tf-gpu]
 urllib3
 wget
 yamlpath
+
+# ipython
+notebook
+ipywidgets
+widgetsnbextension

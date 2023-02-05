@@ -31,3 +31,8 @@ transformers[tf-gpu]
 urllib3
 wget
 yamlpath
+
+# ipython
+notebook
+ipywidgets
+widgetsnbextension

@@ -115,6 +115,7 @@ pull:
 	fi
 
 up:
+	#auto-config-all.sh
 	docker-compose up -d
 
 down:

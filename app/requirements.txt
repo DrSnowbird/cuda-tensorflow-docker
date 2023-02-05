@@ -11,7 +11,7 @@ numpy
 objectpath
 #openPyXL
 pandas
-pathlib
+#pathlib
 pdfminer
 # Pillow
 prettytable

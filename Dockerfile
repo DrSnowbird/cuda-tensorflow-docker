@@ -1,7 +1,6 @@
-ARG IMAGE_TAG=21.12
+ARG IMAGE_TAG=22.03
 ARG BASE=${BASE:-nvcr.io/nvidia/tensorflow:${IMAGE_TAG}-tf2-py3}
-#docker pull nvcr.io/nvidia/tensorflow:${IMAGE_TAG}-tf2-py3
-#ARG BASE=${BASE:-openkbs/python-nonroot-docker}
+#ARG BASE=${BASE:-openkbs/cuda-tensorflow-docker}
 FROM ${BASE}
 
 
@@ -48,15 +47,16 @@ ENV APP_MAIN=${APP_MAIN:-setup.sh}
 #### ---- App: (common) ---- ####
 ################################
 WORKDIR ${APP_HOME}
-RUN python -u -m pip install --upgrade pip
+RUN python3 -u -m pip install --upgrade pip
 
 ###############################
 #### ---- App Setup:  ---- ####
 ###############################
 COPY --chown=$USER:$USER ./app $HOME/app
 COPY --chown=$USER:$USER ./bin $HOME/bin
-RUN $HOME/bin/pre-load-virtualenv.sh && \
-    if [ -s $HOME/app/requirements.txt ]; then \
+#RUN $HOME/bin/pre-load-virtualenv.sh && \
+
+RUN if [ -s $HOME/app/requirements.txt ]; then \
         pip install --no-cache-dir --user -r requirements.txt ; \
     fi; 
     
